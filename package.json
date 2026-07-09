@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "serve -l 4173 homepage-clone",
-    "start:wellbeing": "serve -l 4174 wellbeing-support-clone"
+    "start:wellbeing": "serve -l 4174 wellbeing-support-clone",
+    "start:contact": "serve -l 4175 contact-clone"
   },
   "devDependencies": {
     "serve": "^14.2.4"
