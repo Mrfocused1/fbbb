@@ -1,0 +1,11 @@
+{
+  "name": "fbbb",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "serve -l 4173 homepage-clone"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}

@@ -5,16 +5,10 @@ Static clone of https://www.licensedtradecharity.org.uk/ homepage.
 ## How to view locally
 
 ```bash
-npx serve homepage-clone
+npm start
 ```
 
-Or use any static file server:
-
-```bash
-python3 -m http.server 8000 --directory homepage-clone
-```
-
-Then open http://localhost:8000 in your browser.
+Then open http://localhost:4173 in your browser.
 
 ## What's included
 
