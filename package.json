@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "serve -l 4173 homepage-clone"
+    "start": "serve -l 4173 homepage-clone",
+    "start:wellbeing": "serve -l 4174 wellbeing-support-clone"
   },
   "devDependencies": {
     "serve": "^14.2.4"
