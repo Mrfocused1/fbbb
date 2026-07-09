@@ -16,6 +16,36 @@
 
     <!-- Header -->
     <header class="header">
+<div id="nav-menu-overlay" class="nav-menu-overlay" aria-hidden="true">
+    <div class="nav-menu-overlay__backdrop" data-nav-close></div>
+    <div class="nav-menu-overlay__panel">
+        <div class="nav-menu-overlay__top">
+            <a href="/" class="nav-menu-overlay__logo">
+                <img src="/assets/img/Layer_1-1.svg" alt="FBBS Training Academy">
+            </a>
+            <button type="button" class="nav-menu-overlay__close" data-nav-close aria-label="Close menu">&#10005;</button>
+        </div>
+        <nav class="nav-menu-overlay__list" aria-label="Site">
+            <a href="/" class="nav-menu-overlay__link" data-accent="#FD8D1C" style="transition-delay:0.03s"><span class="nav-menu-overlay__num">01</span><span>Home</span></a>
+            <a href="/about/" class="nav-menu-overlay__link" data-accent="#3F7D6A" style="transition-delay:0.06s"><span class="nav-menu-overlay__num">02</span><span>About</span></a>
+            <a href="/hair-academy/" class="nav-menu-overlay__link" data-accent="#E4A73B" style="transition-delay:0.09s"><span class="nav-menu-overlay__num">03</span><span>Hair Academy</span></a>
+            <a href="/beauty-academy/" class="nav-menu-overlay__link" data-accent="#8A5A44" style="transition-delay:0.12s"><span class="nav-menu-overlay__num">04</span><span>Beauty Academy</span></a>
+            <a href="/wellness-academy/" class="nav-menu-overlay__link" data-accent="#5C8A6E" style="transition-delay:0.15s"><span class="nav-menu-overlay__num">05</span><span>Wellness Academy</span></a>
+            <a href="/professional-development/" class="nav-menu-overlay__link" data-accent="#C96A4B" style="transition-delay:0.18s"><span class="nav-menu-overlay__num">06</span><span>Professional Development</span></a>
+            <a href="/business-enterprise/" class="nav-menu-overlay__link" data-accent="#3F7D6A" style="transition-delay:0.21s"><span class="nav-menu-overlay__num">07</span><span>Business &amp; Enterprise</span></a>
+            <a href="/ai-for-beauty-professionals/" class="nav-menu-overlay__link" data-accent="#FD8D1C" style="transition-delay:0.24s"><span class="nav-menu-overlay__num">08</span><span>AI for Beauty Professionals</span></a>
+            <a href="/cpd-masterclasses/" class="nav-menu-overlay__link" data-accent="#8A5A44" style="transition-delay:0.27s"><span class="nav-menu-overlay__num">09</span><span>CPD Masterclasses</span></a>
+            <a href="/one-to-one-training/" class="nav-menu-overlay__link" data-accent="#5C8A6E" style="transition-delay:0.3s"><span class="nav-menu-overlay__num">10</span><span>One-to-One Training</span></a>
+            <a href="/open-days/" class="nav-menu-overlay__link" data-accent="#C96A4B" style="transition-delay:0.33s"><span class="nav-menu-overlay__num">11</span><span>Open Days</span></a>
+            <a href="/student-support/" class="nav-menu-overlay__link" data-accent="#E4A73B" style="transition-delay:0.36s"><span class="nav-menu-overlay__num">12</span><span>Student Support</span></a>
+            <a href="/partners/" class="nav-menu-overlay__link" data-accent="#3F7D6A" style="transition-delay:0.39s"><span class="nav-menu-overlay__num">13</span><span>Partners</span></a>
+            <a href="/gallery/" class="nav-menu-overlay__link" data-accent="#FD8D1C" style="transition-delay:0.42s"><span class="nav-menu-overlay__num">14</span><span>Gallery</span></a>
+            <a href="/news-insights/" class="nav-menu-overlay__link" data-accent="#8A5A44" style="transition-delay:0.45s"><span class="nav-menu-overlay__num">15</span><span>News &amp; Insights</span></a>
+            <a href="/contact/" class="nav-menu-overlay__link" data-accent="#5C8A6E" style="transition-delay:0.48s"><span class="nav-menu-overlay__num">16</span><span>Contact</span></a>
+        </nav>
+    </div>
+</div>
+
       <div class="container">
         <div class="header__left">
           <div class="header__logo">
@@ -25,26 +55,9 @@
           </div>
 
           <div class="header__nav">
-            <nav class="header-menu">
-              <ul id="menu-header-menu" class="menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about/">About</a></li>
-                <li class="menu-item"><a href="/hair-academy/">Hair Academy</a></li>
-                <li class="menu-item"><a href="/beauty-academy/">Beauty Academy</a></li>
-                <li class="menu-item"><a href="/wellness-academy/">Wellness Academy</a></li>
-                <li class="menu-item"><a href="/professional-development/">Professional Development</a></li>
-                <li class="menu-item"><a href="/business-enterprise/">Business & Enterprise</a></li>
-                <li class="menu-item"><a href="/ai-for-beauty-professionals/">AI for Beauty Professionals</a></li>
-                <li class="menu-item"><a href="/cpd-masterclasses/">CPD Masterclasses</a></li>
-                <li class="menu-item"><a href="/one-to-one-training/">One-to-One Training</a></li>
-                <li class="menu-item"><a href="/open-days/">Open Days</a></li>
-                <li class="menu-item"><a href="/student-support/">Student Support</a></li>
-                <li class="menu-item"><a href="/partners/">Partners</a></li>
-                <li class="menu-item"><a href="/gallery/">Gallery</a></li>
-                <li class="menu-item"><a href="/news-insights/">News & Insights</a></li>
-                <li class="menu-item"><a href="/contact/">Contact</a></li>
-              </ul>
-            </nav>
+            <button type="button" id="nav-menu-trigger" class="nav-menu-trigger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu-overlay">
+              <span></span><span></span><span></span>
+            </button>
           </div>
         </div>
 
@@ -237,5 +250,38 @@
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/script.min.js"></script>
 
-  </body>
+  <script>
+(function(){
+    var trigger = document.getElementById('nav-menu-trigger');
+    var overlay = document.getElementById('nav-menu-overlay');
+    if(!trigger || !overlay) return;
+    var links = overlay.querySelectorAll('.nav-menu-overlay__link');
+
+    function openMenu(){
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden','false');
+        trigger.setAttribute('aria-expanded','true');
+        document.body.classList.add('nav-open');
+    }
+    function closeMenu(){
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden','true');
+        trigger.setAttribute('aria-expanded','false');
+        document.body.classList.remove('nav-open');
+    }
+    trigger.addEventListener('click', openMenu);
+    overlay.querySelectorAll('[data-nav-close]').forEach(function(el){
+        el.addEventListener('click', closeMenu);
+    });
+    document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && overlay.classList.contains('is-open')) closeMenu();
+    });
+    links.forEach(function(link){
+        var accent = link.getAttribute('data-accent');
+        if(!accent) return;
+        link.style.setProperty('--nav-accent', accent + '24');
+    });
+})();
+</script>
+</body>
 </html>
