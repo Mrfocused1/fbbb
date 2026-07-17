@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Admin | FBBS Training Academy</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+@font-face{font-display:swap;font-family:'FSAlbert Regular';src:url(/assets/fonts/FSAlbert_Regular.otf)}
+@font-face{font-display:swap;font-family:'FSAlbert Bold';src:url(/assets/fonts/FSAlbert_Bold.otf)}
+
+:root{
+  --bg-color:#555555;
+  --main-color:#333333;
+  --secondary-bg:#e0e0e0;
+  --tertiary-bg:#ffffff;
+  --footer-bg:#333333;
+  --footer-color:hsla(60,44%,96%,.6);
+  --line:#dddddd;
+  --accent:#333333;
+  --ok:#2e7d32;
+  --err:#b3261e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'FSAlbert Regular', Arial, sans-serif;
+  color:var(--main-color);
+  background:var(--secondary-bg);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+h1,h2,h3,.brand{font-family:Georgia,'Times New Roman',serif}
+
+/* Top bar */
+.topbar{
+  background:var(--footer-bg);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 20px;
+  flex-wrap:wrap;
+  gap:10px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.topbar__left{display:flex;align-items:center;gap:12px;min-width:0}
+.topbar__logo{
+  width:36px;height:36px;border-radius:50%;
+  background:#FCF9F1;color:#004540;
+  display:flex;align-items:center;justify-content:center;
+  font-family:Georgia,serif;font-weight:700;font-size:15px;flex-shrink:0;
+}
+.topbar__title{font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar__badge{
+  font-size:11px;
+  background:#8a6d00;
+  color:#fff8e1;
+  padding:3px 9px;
+  border-radius:20px;
+  white-space:nowrap;
+}
+.topbar__right{display:flex;align-items:center;gap:14px}
+.topbar__link{
+  color:#fff;text-decoration:none;font-size:14px;
+  border:1px solid rgba(255,255,255,.4);
+  padding:8px 14px;border-radius:24px;
+  transition:.2s;
+}
+.topbar__link:hover{background:rgba(255,255,255,.12)}
+
+/* Layout */
+.layout{
+  display:flex;
+  flex:1;
+  min-height:0;
+}
+.sidebar{
+  width:250px;
+  flex-shrink:0;
+  background:var(--tertiary-bg);
+  border-right:1px solid var(--line);
+  padding:16px 0;
+  overflow-y:auto;
+}
+.sidebar__group-title{
+  font-size:11px;text-transform:uppercase;letter-spacing:.06em;
+  color:#888;padding:10px 20px 6px;
+}
+.sidebar__item{
+  display:flex;justify-content:space-between;align-items:center;
+  width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  padding:10px 20px;font-size:14px;color:var(--main-color);
+  font-family:inherit;
+}
+.sidebar__item:hover{background:var(--secondary-bg)}
+.sidebar__item.active{background:var(--main-color);color:#fff;font-weight:700}
+.sidebar__count{
+  font-size:11px;color:#999;background:var(--secondary-bg);
+  border-radius:20px;padding:2px 7px;
+}
+.sidebar__item.active .sidebar__count{background:rgba(255,255,255,.2);color:#fff}
+
+.pagepicker{display:none}
+
+.main{
+  flex:1;
+  min-width:0;
+  padding:28px;
+  overflow-y:auto;
+}
+.main__header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:12px;margin-bottom:22px;
+}
+.main__title{font-size:26px;margin:0}
+.main__subtitle{font-size:13px;color:#777;margin-top:4px}
+.main__view-link{
+  font-size:13px;color:var(--main-color);text-decoration:none;
+  border-bottom:1px solid var(--main-color);
+}
+
+.fields{display:flex;flex-direction:column;gap:14px}
+.field-card{
+  background:var(--tertiary-bg);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:16px 18px;
+}
+.field-card__top{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  margin-bottom:10px;flex-wrap:wrap;
+}
+.field-card__label{font-size:13px;font-weight:700;color:var(--main-color)}
+.field-card__badge{
+  font-size:10px;text-transform:uppercase;letter-spacing:.05em;
+  padding:3px 8px;border-radius:20px;background:var(--secondary-bg);color:#555;
+  flex-shrink:0;
+}
+.field-card__badge.image{background:#e6eef7;color:#2b5b8a}
+.field-card__badge.video{background:#f4e6f7;color:#7a2b8a}
+.field-card__badge.email{background:#e6f7ea;color:#2b7a3f}
+
+textarea.field-input, input.field-input{
+  width:100%;
+  font-family:inherit;
+  font-size:14px;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:#fafafa;
+  color:var(--main-color);
+  resize:vertical;
+}
+textarea.field-input{min-height:64px}
+.field-input:focus{outline:2px solid var(--main-color);outline-offset:1px;background:#fff}
+
+.field-media{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.field-media__preview{
+  width:120px;height:90px;border-radius:6px;overflow:hidden;
+  background:#eee;flex-shrink:0;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+}
+.field-media__preview img{width:100%;height:100%;object-fit:cover}
+.field-media__controls{flex:1;min-width:220px;display:flex;flex-direction:column;gap:8px}
+.field-media__url{display:flex;gap:8px}
+.upload-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;padding:8px 12px;border-radius:6px;
+  border:1px solid var(--main-color);background:#fff;color:var(--main-color);
+  cursor:pointer;width:fit-content;
+}
+.upload-btn:hover{background:var(--secondary-bg)}
+.upload-btn input{display:none}
+
+.field-card__bottom{
+  display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:12px;
+}
+.field-status{font-size:12px;min-height:16px}
+.field-status.ok{color:var(--ok)}
+.field-status.err{color:var(--err)}
+.save-btn{
+  font-family:inherit;font-size:13px;font-weight:700;
+  padding:9px 18px;border-radius:20px;border:none;cursor:pointer;
+  background:#ccc;color:#666;transition:.2s;
+}
+.save-btn.dirty{background:var(--main-color);color:#fff}
+.save-btn:disabled{cursor:default}
+.save-btn.saving{background:#888;color:#fff}
+
+.loading, .empty{padding:40px 0;text-align:center;color:#888;font-size:14px}
+
+@media (max-width:900px){
+  .sidebar{display:none}
+  .pagepicker{
+    display:block;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line);
+  }
+  .pagepicker select{
+    width:100%;font-size:15px;padding:10px;border-radius:6px;border:1px solid var(--line);
+    font-family:inherit;background:#fff;
+  }
+  .layout{flex-direction:column}
+  .main{padding:18px}
+  .main__title{font-size:22px}
+  .field-media__preview{width:96px;height:72px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar__left">
+    <div class="topbar__logo">FB</div>
+    <div class="topbar__title">Content Admin</div>
+    <span class="topbar__badge">Open access &mdash; no login (temporary)</span>
+  </div>
+  <div class="topbar__right">
+    <a class="topbar__link" href="/" target="_blank" rel="noopener">View Site &#8599;</a>
+  </div>
+</div>
+
+<div class="pagepicker">
+  <select id="pagepicker-select" aria-label="Select page"></select>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar" aria-label="Pages"></nav>
+  <main class="main">
+    <div class="main__header">
+      <div>
+        <h1 class="main__title" id="page-title">Loading&hellip;</h1>
+        <div class="main__subtitle" id="page-subtitle"></div>
+      </div>
+      <a class="main__view-link" id="view-link" href="/" target="_blank" rel="noopener">View this page &#8599;</a>
+    </div>
+    <div class="fields" id="fields">
+      <div class="loading">Loading content&hellip;</div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var SUPABASE_URL = "https://ppyffkabfavifyrwohhp.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBweWZma2FiZmF2aWZ5cndvaGhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMzc3MDQsImV4cCI6MjA5OTgxMzcwNH0.LP8zcKY2Rv9KfPX0QesyjH5bu56oiZmKB2_vHQUwoiM";
+
+  var PAGES = [
+    {slug:'home', label:'Home', path:'/'},
+    {slug:'about', label:'About', path:'/about/'},
+    {slug:'hair-academy', label:'Hair Academy', path:'/hair-academy/'},
+    {slug:'beauty-academy', label:'Beauty Academy', path:'/beauty-academy/'},
+    {slug:'wellness-academy', label:'Wellness Academy', path:'/wellness-academy/'},
+    {slug:'professional-development', label:'Professional Development', path:'/professional-development/'},
+    {slug:'business-enterprise', label:'Business & Enterprise', path:'/business-enterprise/'},
+    {slug:'ai-for-beauty-professionals', label:'AI for Beauty Professionals', path:'/ai-for-beauty-professionals/'},
+    {slug:'cpd-masterclasses', label:'CPD Masterclasses', path:'/cpd-masterclasses/'},
+    {slug:'one-to-one-training', label:'One-to-One Training', path:'/one-to-one-training/'},
+    {slug:'open-days', label:'Open Days', path:'/open-days/'},
+    {slug:'student-support', label:'Student Support', path:'/student-support/'},
+    {slug:'partners', label:'Partners', path:'/partners/'},
+    {slug:'gallery', label:'Gallery', path:'/gallery/'},
+    {slug:'news-insights', label:'News & Insights', path:'/news-insights/'},
+    {slug:'contact', label:'Contact', path:'/contact/'},
+    {slug:'admissions', label:'Admissions', path:'/admissions/'},
+    {slug:'booking', label:'Book Online', path:'/booking/'},
+    {slug:'privacy-policy', label:'Privacy Policy', path:'/privacy-policy/'},
+    {slug:'terms-and-conditions', label:'Terms & Conditions', path:'/terms-and-conditions/'},
+    {slug:'cookies-policy', label:'Cookies Policy', path:'/cookies-policy/'},
+    {slug:'global', label:'Global / Site-wide', path:'/'}
+  ];
+
+  var rowsByPage = {};
+  var currentSlug = 'home';
+
+  function headers(extra){
+    var h = {apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY};
+    for (var k in extra) h[k] = extra[k];
+    return h;
+  }
+
+  function fetchAll(){
+    return fetch(SUPABASE_URL + '/rest/v1/site_content?select=*&order=page_slug.asc,sort_order.asc', {
+      headers: headers()
+    }).then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+  }
+
+  function groupRows(rows){
+    var by = {};
+    rows.forEach(function(r){
+      (by[r.page_slug] = by[r.page_slug] || []).push(r);
+    });
+    // disambiguate duplicate labels within a page
+    Object.keys(by).forEach(function(slug){
+      var seen = {};
+      by[slug].forEach(function(r){ seen[r.label] = (seen[r.label]||0) + 1; });
+      var idx = {};
+      by[slug].forEach(function(r){
+        if (seen[r.label] > 1) {
+          idx[r.label] = (idx[r.label]||0) + 1;
+          r._displayLabel = r.label + ' (' + idx[r.label] + ')';
+        } else {
+          r._displayLabel = r.label;
+        }
+      });
+    });
+    return by;
+  }
+
+  function renderSidebar(){
+    var sidebar = document.getElementById('sidebar');
+    var select = document.getElementById('pagepicker-select');
+    sidebar.innerHTML = '';
+    select.innerHTML = '';
+
+    var siteGroup = document.createElement('div');
+    siteGroup.className = 'sidebar__group-title';
+    siteGroup.textContent = 'Pages';
+    sidebar.appendChild(siteGroup);
+
+    PAGES.forEach(function(p){
+      var count = (rowsByPage[p.slug] || []).length;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'sidebar__item' + (p.slug === currentSlug ? ' active' : '');
+      btn.innerHTML = '<span>' + p.label + '</span><span class="sidebar__count">' + count + '</span>';
+      btn.addEventListener('click', function(){ selectPage(p.slug); });
+      sidebar.appendChild(btn);
+
+      var opt = document.createElement('option');
+      opt.value = p.slug;
+      opt.textContent = p.label + ' (' + count + ')';
+      if (p.slug === currentSlug) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
+
+  function fieldTypeBadge(type){
+    return '<span class="field-card__badge ' + type + '">' + type + '</span>';
+  }
+
+  function renderFields(){
+    var page = PAGES.filter(function(p){ return p.slug === currentSlug; })[0];
+    document.getElementById('page-title').textContent = page.label;
+    document.getElementById('page-subtitle').textContent = currentSlug === 'global'
+      ? 'Shared across every page (footer, logo, contact details).'
+      : 'Editable content on this page.';
+    var viewLink = document.getElementById('view-link');
+    if (currentSlug === 'global') {
+      viewLink.style.display = 'none';
+    } else {
+      viewLink.style.display = '';
+      viewLink.href = page.path;
+    }
+
+    var rows = rowsByPage[currentSlug] || [];
+    var container = document.getElementById('fields');
+    container.innerHTML = '';
+
+    if (!rows.length) {
+      container.innerHTML = '<div class="empty">No editable fields found for this page.</div>';
+      return;
+    }
+
+    rows.forEach(function(row){
+      container.appendChild(buildFieldCard(row));
+    });
+  }
+
+  function buildFieldCard(row){
+    var card = document.createElement('div');
+    card.className = 'field-card';
+
+    var top = document.createElement('div');
+    top.className = 'field-card__top';
+    top.innerHTML = '<span class="field-card__label">' + escapeHtml(row._displayLabel) + '</span>' + fieldTypeBadge(row.field_type);
+    card.appendChild(top);
+
+    var input;
+    var dirty = false;
+
+    function markDirty(){
+      dirty = true;
+      saveBtn.classList.add('dirty');
+      saveBtn.disabled = false;
+    }
+
+    if (row.field_type === 'image' || row.field_type === 'video') {
+      var mediaWrap = document.createElement('div');
+      mediaWrap.className = 'field-media';
+
+      var preview = document.createElement('div');
+      preview.className = 'field-media__preview';
+      if (row.field_type === 'image') {
+        preview.innerHTML = '<img src="' + escapeAttr(row.value) + '" alt="">';
+      } else {
+        preview.innerHTML = '<span style="font-size:11px;color:#999">VIDEO</span>';
+      }
+      mediaWrap.appendChild(preview);
+
+      var controls = document.createElement('div');
+      controls.className = 'field-media__controls';
+
+      var urlRow = document.createElement('div');
+      urlRow.className = 'field-media__url';
+      input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'field-input';
+      input.value = row.value;
+      input.placeholder = row.field_type === 'image' ? 'Image URL' : 'Video URL (mp4 or embed link)';
+      urlRow.appendChild(input);
+      controls.appendChild(urlRow);
+
+      var uploadLabel = document.createElement('label');
+      uploadLabel.className = 'upload-btn';
+      uploadLabel.innerHTML = 'Upload ' + row.field_type + ' <input type="file" accept="' + (row.field_type === 'image' ? 'image/*' : 'video/*') + '">';
+      var fileInput = uploadLabel.querySelector('input');
+      var uploadStatus = document.createElement('span');
+      uploadStatus.className = 'field-status';
+      controls.appendChild(uploadLabel);
+      controls.appendChild(uploadStatus);
+
+      fileInput.addEventListener('change', function(){
+        var file = fileInput.files[0];
+        if (!file) return;
+        uploadStatus.textContent = 'Uploading…';
+        uploadStatus.className = 'field-status';
+        var ext = (file.name.split('.').pop() || 'bin').toLowerCase();
+        var path = row.page_slug + '/' + row.cms_key + '-' + Date.now() + '.' + ext;
+        fetch(SUPABASE_URL + '/storage/v1/object/site-media/' + path, {
+          method: 'POST',
+          headers: headers({'Content-Type': file.type || 'application/octet-stream'}),
+          body: file
+        }).then(function(r){
+          if (!r.ok) return r.text().then(function(t){ throw new Error(t); });
+          return r.json();
+        }).then(function(){
+          var publicUrl = SUPABASE_URL + '/storage/v1/object/public/site-media/' + path;
+          input.value = publicUrl;
+          if (row.field_type === 'image') preview.innerHTML = '<img src="' + escapeAttr(publicUrl) + '" alt="">';
+          uploadStatus.textContent = 'Uploaded — click Save to publish';
+          uploadStatus.className = 'field-status ok';
+          markDirty();
+        }).catch(function(err){
+          uploadStatus.textContent = 'Upload failed: ' + err.message;
+          uploadStatus.className = 'field-status err';
+        });
+      });
+
+      input.addEventListener('input', function(){
+        if (row.field_type === 'image') preview.innerHTML = '<img src="' + escapeAttr(input.value) + '" alt="">';
+        markDirty();
+      });
+
+      mediaWrap.appendChild(controls);
+      card.appendChild(mediaWrap);
+    } else {
+      input = document.createElement('textarea');
+      input.className = 'field-input';
+      input.value = row.value;
+      input.addEventListener('input', markDirty);
+      card.appendChild(input);
+    }
+
+    var bottom = document.createElement('div');
+    bottom.className = 'field-card__bottom';
+    var status = document.createElement('span');
+    status.className = 'field-status';
+    var saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'save-btn';
+    saveBtn.textContent = 'Save';
+    saveBtn.disabled = true;
+
+    saveBtn.addEventListener('click', function(){
+      saveBtn.classList.add('saving');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving…';
+      status.textContent = '';
+      var newValue = input.value;
+
+      fetch(SUPABASE_URL + '/rest/v1/site_content?page_slug=eq.' + encodeURIComponent(row.page_slug) + '&cms_key=eq.' + encodeURIComponent(row.cms_key), {
+        method: 'PATCH',
+        headers: headers({'Content-Type': 'application/json', 'Prefer': 'return=minimal'}),
+        body: JSON.stringify({value: newValue, updated_at: new Date().toISOString()})
+      }).then(function(r){
+        if (!r.ok) return r.text().then(function(t){ throw new Error(t); });
+        row.value = newValue;
+        dirty = false;
+        saveBtn.classList.remove('saving', 'dirty');
+        saveBtn.textContent = 'Save';
+        saveBtn.disabled = true;
+        status.textContent = 'Saved ✓';
+        status.className = 'field-status ok';
+        setTimeout(function(){ status.textContent = ''; }, 2500);
+      }).catch(function(err){
+        saveBtn.classList.remove('saving');
+        saveBtn.classList.add('dirty');
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
+        status.textContent = 'Error: ' + err.message;
+        status.className = 'field-status err';
+      });
+    });
+
+    bottom.appendChild(status);
+    bottom.appendChild(saveBtn);
+    card.appendChild(bottom);
+
+    return card;
+  }
+
+  function selectPage(slug){
+    currentSlug = slug;
+    renderSidebar();
+    renderFields();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function escapeAttr(s){ return escapeHtml(s); }
+
+  document.getElementById('pagepicker-select').addEventListener('change', function(e){
+    selectPage(e.target.value);
+  });
+
+  fetchAll().then(function(rows){
+    rowsByPage = groupRows(rows);
+    renderSidebar();
+    renderFields();
+  }).catch(function(err){
+    document.getElementById('fields').innerHTML = '<div class="empty">Failed to load content: ' + escapeHtml(err.message) + '</div>';
+  });
+})();
+</script>
+</body>
+</html>

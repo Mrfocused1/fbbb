@@ -12,7 +12,7 @@
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     <link rel="stylesheet" href="contact.css">
   </head>
-  <body class="contact-page">
+  <body data-page-slug="contact" class="contact-page">
 
     <!-- Header -->
     <header class="header">
@@ -40,6 +40,7 @@
             <a href="/gallery/" class="nav-menu-overlay__link" data-accent="#555555" style="transition-delay:0.42s"><span class="nav-menu-overlay__num">14</span><span>Gallery</span></a>
             <a href="/news-insights/" class="nav-menu-overlay__link" data-accent="#555555" style="transition-delay:0.45s"><span class="nav-menu-overlay__num">15</span><span>News &amp; Insights</span></a>
             <a href="/contact/" class="nav-menu-overlay__link" data-accent="#555555" style="transition-delay:0.48s"><span class="nav-menu-overlay__num">16</span><span>Contact</span></a>
+        <a href="/admin/" class="nav-menu-overlay__link" data-accent="#555555" style="transition-delay:0.51s"><span class="nav-menu-overlay__num">17</span><span>Admin</span></a>
         </nav>
     </div>
 </div>
@@ -61,8 +62,8 @@
       <!-- Page Header -->
       <section class="page-header">
         <div class="container">
-          <h1>Contact FBBS Training Academy</h1>
-          <p class="page-intro">We'd love to hear from you. Whether you're interested in our courses, one-to-one training or CPD opportunities, we're here to help.</p>
+          <h1 data-cms-id="c1">Contact FBBS Training Academy</h1>
+          <p data-cms-id="c2" class="page-intro">We'd love to hear from you. Whether you're interested in our courses, one-to-one training or CPD opportunities, we're here to help.</p>
         </div>
       </section>
 
@@ -71,7 +72,7 @@
         <div class="container">
           <div class="contact-details__grid">
             <div class="contact-details__item">
-              <h3>Get in Touch</h3>
+              <h3 data-cms-id="c3">Get in Touch</h3>
               <div class="contact-info">
                 <div class="contact-info__item">
                   <strong>Telephone:</strong>
@@ -102,8 +103,8 @@
       <!-- Enquiry Form -->
       <section class="enquiry-form-section">
         <div class="container">
-          <h2>Send Us an Enquiry</h2>
-          <p class="enquiry-intro">Fill out the form below and we'll get back to you as soon as possible.</p>
+          <h2 data-cms-id="c4">Send Us an Enquiry</h2>
+          <p data-cms-id="c5" class="enquiry-intro">Fill out the form below and we'll get back to you as soon as possible.</p>
 
           <form class="enquiry-form" action="#" method="POST" onsubmit="return false;">
             <div class="form-row">
@@ -157,9 +158,9 @@
       <section class="cta-section">
         <div class="container">
           <div class="cta-box">
-            <h2>Ready to Start Your Professional Journey?</h2>
-            <p>Book a personal appointment to discuss your learning goals and discover the training that's right for you.</p>
-            <a href="/booking/" class="button button--gold">Book an Appointment</a>
+            <h2 data-cms-id="c6">Ready to Start Your Professional Journey?</h2>
+            <p data-cms-id="c7">Book a personal appointment to discuss your learning goals and discover the training that's right for you.</p>
+            <a data-cms-id="c8" href="/booking/" class="button button--gold">Book an Appointment</a>
           </div>
         </div>
       </section>
@@ -269,5 +270,6 @@
     });
 })();
 </script>
+<script defer src="/assets/js/cms.js"></script>
 </body>
 </html>
