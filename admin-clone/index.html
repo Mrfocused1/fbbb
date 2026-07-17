@@ -829,7 +829,10 @@ textarea.field-input{min-height:68px}
     fieldFilter = '';
     document.getElementById('field-search').value = '';
     document.getElementById('field-search-wrap').classList.remove('has-value');
-    renderSidebar(document.getElementById('sidebar-search').value);
+    // Clear sidebar search and force full sidebar refresh
+    var sidebarSearch = document.getElementById('sidebar-search');
+    sidebarSearch.value = '';
+    renderSidebar('');
     renderFields();
     document.querySelector('.main').scrollTo({top:0, behavior:'smooth'});
   }
@@ -861,6 +864,11 @@ textarea.field-input{min-height:68px}
     document.getElementById('field-search-wrap').classList.remove('has-value');
     applyFieldFilter();
     fieldSearchInput.focus();
+  });
+
+  // Sidebar search clear - also ensure renderSidebar is called
+  document.getElementById('sidebar-search').addEventListener('change', function(e){
+    renderSidebar(e.target.value);
   });
 
   fetchAll().then(function(rows){
